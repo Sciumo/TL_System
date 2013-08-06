@@ -1,0 +1,4 @@
+
+call 99_setAbsolutePaths.bat
+%SML_RUN% @SMLload=%TRANSFORMATION_FOLDER%/bin/parser.X86-win32 TGT %INPUT_FOLDER% %OUTPUT_FOLDER% %TGT_W_EXTENSION%
+

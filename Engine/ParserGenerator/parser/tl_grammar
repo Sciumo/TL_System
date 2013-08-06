@@ -1,0 +1,190 @@
+USE_LR_PARSER
+t_program
+												
+(* ----------------------------------------------------- *)
+												
+%LEFT_ASSOC   "orelse"          			"Level_1_boolean_01" . (* lowest *)
+%LEFT_ASSOC   "andalso"        				"Level_1_boolean_02" . 
+								
+%LEFT_ASSOC   "="            				"Level_2_matching_01" . 
+%LEFT_ASSOC   ":="           				"Level_2_matching_02" . 
+								
+%LEFT_ASSOC  "+>" "<+" "<+>"				"Level_3_combinator_01" .
+%LEFT_ASSOC  ";>" "<;"     					"Level_3_combinator_02" .
+%LEFT_ASSOC  "*>" "<*" 						"Level_3_combinator_03" .
+									
+%LEFT_ASSOC   "->"  						"Level_4_rewrite_01" .
+%LEFT_ASSOC   "if"  						"Level_4_rewrite_02" .
+										
+%LEFT_ASSOC   "||"  						"Level_5_operator_01" . 
+%LEFT_ASSOC   "&&" 							"Level_5_operator_02" . 
+%LEFT_ASSOC   "==" "!=" "<" ">" "<=" ">="	"Level_5_operator_03" . 
+%LEFT_ASSOC   "^" "+" "-" 					"Level_5_operator_04" . 
+%LEFT_ASSOC   "*" "/" "div" "mod" 			"Level_5_operator_05" . 
+												
+(* ----------------------------------------------------------- *)
+(* ----------------------------------------------------------- *)
+
+<TL_Unit>			::= <derivedForm_list> <importDef_list> <moduleDef_list>			            .
+
+<derivedForm_list>  ::= <derivedForm> <derivedForm_list> | ()                                       .
+<derivedForm>       ::= <ModuleSet>                                                                 .
+<ModuleSet>         ::= "DerivedForm" id "=" <binary_combinator> "{" <qualified_id_list> "}"      .
+<qualified_id_list> ::= <qualified_id> <qualified_id_list> | ()                                     .
+
+<importDef_list>	::= <importDef> <importDef_list> | ()			.
+<importDef>         ::= "import_opened" <qualified_id>
+					  | "import_closed" <qualified_id>				.
+					  
+					  
+	
+<moduleDef_list>	::= <moduleDef> <moduleDef_list> | () 			.
+<moduleDef>			::= "module" id <typeSetting> <decl_list> "end" 	 			.
+
+<typeSetting>		::= "(" "precision" "=" int_value "," "verbosity" "=" int_value ")" 
+						| () .					  
+					  
+								
+<t_program> 		::= <decl_list>									.
+<decl_list>			::= <decl>  <decl_list> | () 					.
+																
+<decl>    			::= "strategy" <name> <parse_expr_list> ":" <expr> 
+					| "def" <name> <arg_list> "=" <expr>			
+					| "UserDefinedFunctions" "=" "sig" <signature_list> "end" .
+
+(* ----------------------------------------------------------------------------------------- *)	
+<signature_list>	::= <signature> <signature_list> | () 										.	 
+<signature>			::= id ":" <typeExpr>														.
+<typeExpr> 			::=	<typeTerm> "->" <typeBase> 				 								.
+<typeTerm>			::= <typeBase> "*" <typeTerm> | <typeBase>									.
+<typeBase>			::= schemaType | "unit" | "int" | "bool" | "string" | "real" 			 	.
+			
+ 			  
+(* ----------------------------------------------------------------------------------------- *)
+				  
+<name>     		::= id   										.
+<arg>			::= id | <parse_expr>  							.
+																
+<arg_list>		::= <arg> <arg_list> | ()						.
+<parse_expr_list> 	::= <parse_expr> <parse_expr_list> | ()		.
+															
+(* ----------------------------------------------------------- *)
+(* ----------------------------------------------------------- *)
+
+<expr>      	::= <expr> "andalso" <expr>             	%PREC "Level_1_boolean_01"  .
+<expr>      	::= <expr> "orelse" <expr>         	     	%PREC "Level_1_boolean_02"  .
+
+(* ----------------------------------------------------------- *)
+
+<expr>      	::= <expr> "="  <expr>             	 	%PREC "Level_2_matching_01"  .
+<expr>      	::= id     ":=" <expr>             	 	%PREC "Level_2_matching_02"  .
+
+(* ----------------------------------------------------------- *)
+
+<expr>      	::= <expr> "<+>" <expr>              		%PREC "Level_3_combinator_01"  .
+<expr>      	::= <expr> "+>" <expr>              		%PREC "Level_3_combinator_01"  .
+<expr>      	::= <expr> "<+" <expr>              		%PREC "Level_3_combinator_01"  .
+<expr>      	::= <expr> ";>" <expr>              		%PREC "Level_3_combinator_02"  .
+<expr>      	::= <expr> "<;" <expr>              		%PREC "Level_3_combinator_02"  .
+<expr>      	::= <expr> "*>" <expr>              		%PREC "Level_3_combinator_03"  .
+<expr>      	::= <expr> "<*" <expr>             	 	%PREC "Level_3_combinator_03"  .
+
+<expr>   	::= <parse_expr> "->" <expr>              		%PREC "Level_4_rewrite_01"  .
+<expr>   	::= <parse_expr> "->" <expr> "if" "{" <expr> "}" 	%PREC "Level_4_rewrite_02"  .
+
+(* ----------------------------------------------------------- *)
+
+<expr>   	::= <expr> "||"  <expr>    			%PREC "Level_5_operator_01" .
+<expr>   	::= <expr> "&&"  <expr>    			%PREC "Level_5_operator_02" .
+
+(* ----------------------------------------------------------- *)
+
+<expr>   	::= <expr> "=="  <expr>    			%PREC "Level_5_operator_03" .
+<expr>   	::= <expr> "!="  <expr>    			%PREC "Level_5_operator_03" .
+<expr>   	::= <expr> "<"   <expr>    			%PREC "Level_5_operator_03" .
+<expr>   	::= <expr> "<="  <expr>    			%PREC "Level_5_operator_03" .
+<expr>   	::= <expr> ">"   <expr>    			%PREC "Level_5_operator_03" .
+<expr>   	::= <expr> ">="  <expr>    			%PREC "Level_5_operator_03" .
+
+(* ----------------------------------------------------------- *)
+
+<expr>   	::= <expr> "^"   <expr>    			%PREC "Level_5_operator_04" .
+<expr>   	::= <expr> "+"   <expr>    			%PREC "Level_5_operator_04" .
+<expr>   	::= <expr> "-"   <expr>    			%PREC "Level_5_operator_04" .
+
+<expr>   	::= <expr> "*"   <expr>    			%PREC "Level_5_operator_05" .
+<expr>   	::= <expr> "/"   <expr>    			%PREC "Level_5_operator_05" .
+<expr>   	::= <expr> "div" <expr>    			%PREC "Level_5_operator_05" .
+<expr>   	::= <expr> "mod" <expr>    			%PREC "Level_5_operator_05" .
+
+(* ----------------------------------------------------------- *)
+(* ----------------------------------------------------------- *)
+
+<expr>		::= <application> .
+
+<application> 	::= [ <application> ] <base> 			.
+
+<base>        	::= <primitive>
+		  | <library_call>
+		  | "(" <expr> ")" 				.
+
+
+<primitive>	::= "ID"
+              | "SKIP"
+              | "FAIL"
+		  | <unary>
+		  | <parse_expr> 
+		  | <qualified_id> | bool_value | int_value | real_value | string_value    	.
+
+<qualified_id>	::=  id [ "." <qualified_id> ] 		  .
+
+<library_call> ::= "sml" "." id "(" [ <expr_list> ] ")"	.	(* user defined sml function calls *)
+
+(* ----------------------------------------------------------- *)
+(*                      Auxiliary                              *) 
+(* ----------------------------------------------------------- *)
+
+
+<expr_list>   	::= <expr> [ "," <expr_list> ]        	.
+
+
+(* ----------------------------------------------------------- *)
+(*                      Atomic Values                          *) 
+(* ----------------------------------------------------------- *)
+
+<parse_expr>  	::= schema_var 
+                    | target_tree_phrase	.
+
+<unary> ::= "not" | "!" | "~" 
+           |  <unary_combinator>
+           |  <traversal_op>
+           |  <fold_combinator>		.
+
+
+<binary_combinator>	::= "<+>" 
+                          | "<+" | "+>"
+                          | "<;" | ";>"
+                          | "<*" | "*>"            .
+
+<unary_combinator> 	::= "hide" | "lift" 
+                          | "transient" | "opaque" | "raise"
+                          | "mapL" | "mapR" | "mapB"            .
+
+<traversal_op>		::= "TdlBul" | "TDL" | "TDR" | "BUL" | "BUR" | "TD" | "FIX"
+                          | "lseq_tdl"      | "rseq_tdl" 
+                      	  | "lseq_bul"      | "rseq_bul" 
+                     	  | "lcond_tdl"     | "rcond_tdl"
+                     	  | "lcond_bul"     | "rcond_bul" 
+                     	  | "lstar_tdl"     | "rstar_tdl"
+                       	  | "lstar_bul"     | "rstar_bul" 
+
+                     	  | "lseq_tdr"      | "rseq_tdr" 
+                     	  | "lseq_bur"      | "rseq_bur" 
+                     	  | "lcond_tdr"     | "rcond_tdr"
+                     	  | "lcond_bur"     | "rcond_bur" 
+                     	  | "lstar_tdr"     | "rstar_tdr"
+                     	  | "lstar_bur"     | "rstar_bur"	.
+
+<fold_combinator>	::= ( "fold" | "foldS" ) <binary_combinator>		.
+
+(* ----------------------------------------------------------- *)

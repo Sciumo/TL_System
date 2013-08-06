@@ -1,0 +1,21 @@
+Group is
+
+	../support.cm
+
+	../../Engine/General_Libraries/Clocks.sml
+	../../Engine/General_Libraries/Environment.sml
+
+	../../Engine/General_Libraries/Ids.sml
+	../../Engine/General_Libraries/Output.sml
+	../../Engine/General_Libraries/Strategic_Values.sml
+	../../Engine/General_Libraries/Strategic_Views.sml	
+	
+
+	../../Engine/CommandLine_Support/handleException.sml
+	
+	simple_language.sty
+	PrettyPrint.sml
+	
+    UserDefined.sml
+	
+	

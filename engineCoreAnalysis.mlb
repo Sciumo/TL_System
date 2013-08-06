@@ -1,0 +1,18 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    $(SML_LIB)/smlnj-lib/Util/smlnj-lib.mlb
+    
+    engineCoreSyntaxAbstract.mlb
+    engineCoreSyntaxConcrete.mlb
+    engineParserGeneratorAux.mlb
+    engineParserGeneratorParserReadGrammar.mlb
+in
+    $(TL)/Engine/Engine_Core/Analysis/environment.sml
+    $(TL)/Engine/Engine_Core/Analysis/util.sml
+    $(TL)/Engine/Engine_Core/Analysis/unification.sml
+    $(TL)/Engine/Engine_Core/Analysis/grammar.sml
+    $(TL)/Engine/Engine_Core/Analysis/reduce.sml
+    $(TL)/Engine/Engine_Core/Analysis/composition.sml
+    $(TL)/Engine/Engine_Core/Analysis/typecheck.sml 
+    $(TL)/Engine/Engine_Core/Analysis/optimize.sml
+end

@@ -1,0 +1,14 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    $(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
+in
+    $(TL)/Engine/ParserGenerator/parser/ReadGrammar/errormsg.sig
+    $(TL)/Engine/ParserGenerator/parser/ReadGrammar/errormsg.sml
+    $(TL)/Engine/ParserGenerator/parser/ReadGrammar/sourcemap.sig
+    $(TL)/Engine/ParserGenerator/parser/ReadGrammar/sourcemap.sml
+    $(TL)/Engine/ParserGenerator/parser/ReadGrammar/gram_ast.sig
+    (* generated *) $(TL)/Engine/ParserGenerator/parser/ReadGrammar/grammar.grm.sig
+    (* generated *) $(TL)/Engine/ParserGenerator/parser/ReadGrammar/grammar.lex.sml
+    (* generated *) $(TL)/Engine/ParserGenerator/parser/ReadGrammar/grammar.grm.sml
+    $(TL)/Engine/ParserGenerator/parser/ReadGrammar/grammar_parser.sml
+end

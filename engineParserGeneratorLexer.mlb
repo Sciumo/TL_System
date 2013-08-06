@@ -1,0 +1,12 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    
+    engineCoreSyntaxConcrete.mlb
+    engineParserGeneratorAux.mlb
+    
+    specs.mlb
+in
+    $(TL)/Engine/ParserGenerator/lexer/token_sig.sml
+    $(TL)/Engine/ParserGenerator/lexer/target_token_ops.sml
+    $(TL)/Engine/ParserGenerator/lexer/tl_token_ops.sml
+end

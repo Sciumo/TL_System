@@ -1,0 +1,17 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    
+    engineCoreMetrics.mlb
+    engineCoreSyntaxAbstract.mlb
+    engineCoreSyntaxConcrete.mlb
+in
+    $(TL)/Engine/Engine_Core/Semantics/wildcard.sml
+    $(TL)/Engine/Engine_Core/Semantics/matching.sml
+    $(TL)/Engine/Engine_Core/Semantics/operations.sml
+    $(TL)/Engine/Engine_Core/Semantics/state_model.sml
+    $(TL)/Engine/Engine_Core/Semantics/stack.sml
+    $(TL)/Engine/Engine_Core/Semantics/store.sml
+    $(TL)/Engine/Engine_Core/Semantics/predefined.sml
+    $(TL)/Engine/Engine_Core/Semantics/semantics.sml
+    $(TL)/Engine/Engine_Core/Semantics/generate.sml
+end

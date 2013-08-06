@@ -1,0 +1,15 @@
+Group is
+
+	support.cm
+	CommandLineArgs.sml
+
+SML_Modules/UserLibrary.cm 
+
+
+target_tokens.spec : MLLex
+  
+  ../Engine/ParserGenerator/lexer/target_token_ops.sml
+  ../Engine/ParserGenerator/parser/build_parsers.sml
+
+  ../Engine/CommandLine_Support/TargetParser.sml
+  ../Engine/CommandLine_Support/Transform_Support.sml

@@ -1,0 +1,12 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    
+    $(TL)/Utility/FileUtility.sml
+    
+    engineCommandLineSupportHandleException.mlb
+    
+    engineCoreSyntaxConcrete.mlb
+    engineCoreSyntaxAbstract.mlb
+in
+    $(TL)/Engine/General_Libraries/Environment.sml
+end

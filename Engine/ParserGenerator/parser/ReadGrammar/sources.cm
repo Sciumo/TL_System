@@ -1,0 +1,16 @@
+(* ReadGrammar/sources.cm *)
+
+Group is
+  $/basis.cm
+  $/smlnj-lib.cm
+  $/ml-yacc-lib.cm
+
+  grammar.lex : shell (target:grammar.lex.sml options:(shared)
+						ml-lex %s)
+  grammar.grm : MLYacc
+  grammar_parser.sml
+  sourcemap.sig
+  sourcemap.sml
+  errormsg.sig
+  errormsg.sml
+  gram_ast.sig

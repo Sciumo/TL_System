@@ -1,0 +1,7 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+in
+    $(TL)/Engine/Engine_Core/Syntax/file_operations.sml
+    $(TL)/Engine/Engine_Core/Syntax/concrete_representation.sml
+    $(TL)/Engine/Engine_Core/Syntax/concrete.sml
+end

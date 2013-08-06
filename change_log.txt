@@ -1,0 +1,176 @@
+
+=================================================================================================== 
+Change 1: Adding info to target files
+=================================================================================================== 
+File: concrete_representation.sml 
+
+        datatype INODE 
+
+        change to datatype NODE = t_node of string * NODE_INFO | schema_var of string * NODE_INFO 
+		fullPrintTree
+		
+		
+		Remarks:
+		
+        makeNodeInfo   <- creates row and column ranges 
+
+
+        convertToITREE ? vs TREE 
+
+=================================================================================================== 
+File: concrete.sml 
+
+        ---------------------------------------- 
+        ITREE_fromHatsFile  -> merge with ITREE_from XMLFile with call to -> ITREE_fromEmbedded 
+
+Name change: ITREE_fromHatsFile ==> ITREE_fromFile
+Deleted: ITREE_fromXMLFile
+
+		
+        ITREE_fromEmbedded : change 
+                val node_data  = FILE_OPERATIONS.extractXML_NodeInfo_ITREE(token) 
+                to 
+                val node_data  = FILE_OPERATIONS.extractXML_NodeInfo(token) 
+        build_concrete : adjust 
+        ---------------------------------------- 
+
+
+Rename: toHatsFile ==> toFile
+		
+        embeddedToFile 
+
+        toCustomFormattedFile (* remove this *) 
+                also remove the entire custom file type section Lines 50-164 
+
+
+        printTree 
+        leavesToString 
+        leavesToStringRaw 
+		
+		eqLinearInternalStructure		
+        getLeaf 
+        replaceLeaf 
+		
+=================================================================================================== 
+File: interface.sml 
+        
+		Removed: toCustomFileFormat
+		Removed: transformFromGUI
+
+=================================================================================================== 
+File: generate.sml 
+        
+		Removed: new??
+=================================================================================================== 
+File: prettyprint_engine.sml 
+
+		prettyprint
+		shallowMatch
+		shallowMatchStub
+		deepMatch
+		deepMatchStub
+		
+		getChildren
+		makeTreeStub
+		makeChildrenStubs
+		
+=================================================================================================== 
+File: matching.sml 
+
+	eq_GroundTerm
+	auxMatch
+	filterSubstList ?
+=================================================================================================== 
+File: wildcard.sml 
+
+
+=================================================================================================== 
+File: file_operations.sml 
+
+        extractXML_NodeInfo_ITREE  (see extractXML_NodeInfo) 
+		
+		
+		
+=================================================================================================== 
+Change 2: Adding label to info
+=================================================================================================== 
+		
+	File: ParserGenerator/Parser/build_hats_parser.sml	
+	
+		TL_ParseTree.terminalNode:
+			This is where row and col data is converted into NODE_INFO via CONCRETE_REPRESENTATION.convertToInfo
+			
+			
+	File: createParser.sml
+		structure: target_parser 	instantiated from build_parsers.sml
+		structure: TL_parser		instantiated from build_parsers.sml
+		
+	File: modulePreprocessor.sml
+			uses aux_ParseTL from createParser.sml
+
+		
+=================================================================================================== 
+	Change to parse related functions:
+			ParseTarget			 	(createParser.sml)
+									set label in CONCRETE_REPRESENTATION just before call to target_parser.parse
+								
+			aux_ParseTL				(createParser.sml)
+									set label in CONCRETE_REPRESENTATION just before call to TL_parser.parse
+									This function calls TL_Parser.parse (build_hats_parser.sml) which
+									uses terminalNode....from which convertToInfo is called.
+		
+			CONCRETE_REPRESENTATION	add ref to label data
+									add setter function
+			
+			convertToInfo			(CONCRETE_REPRESENTATION)
+									include label data
+		
+			datatype NODE_INFO		(CONCRETE_REPRESENTATION)
+									add label str
+									
+=================================================================================================== 
+	Change to XML file input/output functions:
+		
+		Input:
+			extractXML_NodeInfo_ITREE	(file_operations.sml)
+										change getPositionInfo
+										
+			extractXML_NodeInfo
+			
+			makeNodeInfo				(concrete_representation.sml)
+		
+		Output:
+			embeddedToFile					(concrete.sml)
+			EXPR_fromEmbedded_TREE_FORMAT	(abstract.sml)
+											get_xml_tree
+											
+			embeddedToFile					(abstract.sml)
+			makeXMLToken					(file_operations.sml)
+			makeLineAttribute				(concrete_representation.sml)
+			makeColumnAttribute				(concrete_representation.sml)
+			makeLabelAttribute				add to concrete_representation.sml
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

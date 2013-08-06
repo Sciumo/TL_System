@@ -1,0 +1,9 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    
+    engineCoreSyntaxConcrete.mlb
+in
+    $(TL)/Engine/Engine_Core/Syntax/abstract_representation.sml
+    $(TL)/Engine/Engine_Core/Runtime/runtime.sml
+    $(TL)/Engine/Engine_Core/Syntax/abstract.sml
+end

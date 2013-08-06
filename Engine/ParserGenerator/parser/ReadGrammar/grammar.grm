@@ -1,0 +1,136 @@
+(* ReadGrammar/grammar.grm *)
+
+open AST
+
+%%
+%pos word
+%pure
+%verbose
+%name Grammar
+%arg (rule) : int -> unit
+
+%header (functor GrammarParserLrValsFn(
+            structure Token : TOKEN;
+            structure AST : GRAMMAR_ABSTRACT_SYNTAX)
+        )
+
+%term
+    ID of string
+  | TID of string
+  | LID of string
+  | NON_ASSOC
+  | LEFT_ASSOC
+  | RIGHT_ASSOC
+  | PREC
+  | LPAREN
+  | RPAREN
+  | LBRACK
+  | RBRACK
+  | LBRACE
+  | RBRACE
+  | EQUALS
+  | VBAR
+  | ASTERISK
+  | PLUS
+  | QUESTION
+  | END_PRODUCTION
+  | EOF
+
+%noshift EOF
+%left VBAR
+
+%nonterm
+    grammar of grammar
+  | production_list of production list
+  | production of production
+  | choice_regexp of regular_expression
+  | sequence_regexp of regular_expression list
+  | atomic_regexp of regular_expression
+  | precassoc_rules of precassoc_rule list
+  | precassoc_rule of precassoc_rule
+  | precsymb_opt of symbol option
+  | symbol_list of symbol list
+  | symbol of symbol
+
+
+%start grammar
+%eop EOF
+
+%%
+
+grammar
+  : ID precassoc_rules production_list                                          (rule(00); GRAMMAR {precassoc_rules=precassoc_rules, production_list=production_list})
+
+
+production_list
+  : production                                                                  (rule(01); [production])
+
+  | production production_list                                                  (rule(02); production :: production_list)
+
+
+production
+  : ID EQUALS choice_regexp precsymb_opt END_PRODUCTION                         (rule(03); {name=ID, filepos={left=ID1left, right=ID1right}, regex=choice_regexp, precsymb_opt=precsymb_opt})
+
+  | TID EQUALS choice_regexp precsymb_opt END_PRODUCTION                        (rule(03); {name=TID, filepos={left=TID1left, right=TID1right}, regex=choice_regexp, precsymb_opt=precsymb_opt})
+
+
+choice_regexp
+  : sequence_regexp                                                             (rule(04); SEQUENCE sequence_regexp)
+
+  | choice_regexp VBAR choice_regexp                                            (rule(05); CHOICE(choice_regexp1, choice_regexp2))
+
+
+sequence_regexp 
+  :                                                                             (rule(06); nil)
+
+  | atomic_regexp sequence_regexp                                               (rule(07); atomic_regexp :: sequence_regexp)
+
+
+atomic_regexp
+  : symbol                                                                      (rule(08); SYMBOL symbol)
+
+  | atomic_regexp PLUS                                                          (rule(09); REPETITION atomic_regexp)
+
+  | atomic_regexp QUESTION                                                      (rule(10); CHOICE(SEQUENCE[], atomic_regexp))
+
+  | atomic_regexp ASTERISK                                                      (rule(11); CHOICE(SEQUENCE[], REPETITION atomic_regexp))
+
+  | LPAREN choice_regexp RPAREN                                                 (rule(12); choice_regexp)
+
+  | LBRACK choice_regexp RBRACK                                                 (rule(13); CHOICE(SEQUENCE[], choice_regexp))
+
+  | LBRACE choice_regexp RBRACE                                                 (rule(14); CHOICE(SEQUENCE[], REPETITION choice_regexp))
+
+
+precassoc_rules
+  :                                                                             (rule(15); nil)
+
+  | precassoc_rule precassoc_rules                                              (rule(16); precassoc_rule :: precassoc_rules)
+
+
+precassoc_rule
+  : NON_ASSOC symbol_list END_PRODUCTION                                        (rule(17); NON_ASSOCIATIVE symbol_list)
+
+  | LEFT_ASSOC symbol_list END_PRODUCTION                                       (rule(18); LEFT_ASSOCIATIVE symbol_list)
+
+  | RIGHT_ASSOC symbol_list END_PRODUCTION                                      (rule(19); RIGHT_ASSOCIATIVE symbol_list)
+
+
+precsymb_opt
+  :                                                                             (rule(20); NONE)
+
+  | PREC symbol                                                                 (rule(21); SOME symbol)
+
+
+symbol_list
+  : symbol                                                                      (rule(22); [symbol])
+
+  | symbol symbol_list                                                          (rule(23); symbol :: symbol_list)
+
+
+symbol
+  : ID                                                                          (rule(24); {name=ID, delim_opt=NONE, filepos={left=ID1left, right=ID1right}})
+
+  | TID                                                                         (rule(25); {name=TID, delim_opt=SOME #"<", filepos={left=TID1left, right=TID1right}})
+
+  | LID                                                                         (rule(26); {name=LID, delim_opt=SOME #"'", filepos={left=LID1left, right=LID1right}})

@@ -1,0 +1,56 @@
+Group is
+
+	smlnj-lib.cm
+	ml-yacc-lib.cm
+
+
+	../Engine/ParserGenerator/auxiliary/universal.sml 
+	../Engine/ParserGenerator/auxiliary/bit-vector-set.sml
+	../Engine/ParserGenerator/auxiliary/Grammar_AbstractSyntax.sml 
+  
+	../Engine/ParserGenerator/lexer/tl_lex.spec : MLLex
+	../Engine/ParserGenerator/lexer/tl_token_ops.sml
+	../Engine/ParserGenerator/lexer/token_sig.sml
+
+	../Engine/ParserGenerator/parser/ReadGrammar/sources.cm
+  
+	../Engine/ParserGenerator/parser/build_hats_parser.sml
+	../Engine/ParserGenerator/parser/LR_Parser.sml
+	../Engine/ParserGenerator/parser/parser_sig.sml
+  
+	../Engine/Engine_Core/Syntax/abstract.sml
+	../Engine/Engine_Core/Syntax/abstract_representation.sml
+	../Engine/Engine_Core/Syntax/concrete.sml
+	../Engine/Engine_Core/Syntax/concrete_representation.sml 
+	../Engine/Engine_Core/Syntax/file_operations.sml  
+	../Engine/Engine_Core/Runtime/runtime.sml
+	../Engine/Engine_Core/Analysis/optimize.sml
+	../Engine/Engine_Core/Analysis/environment.sml
+	../Engine/Engine_Core/Analysis/typecheck.sml 
+	../Engine/Engine_Core/Analysis/util.sml
+	../Engine/Engine_Core/Analysis/grammar.sml
+	../Engine/Engine_Core/Analysis/unification.sml
+	../Engine/Engine_Core/Analysis/reduce.sml
+	../Engine/Engine_Core/Analysis/composition.sml
+	
+
+
+	
+	../Engine/Engine_Core/Semantics/matching.sml
+	../Engine/Engine_Core/Semantics/operations.sml
+	../Engine/Engine_Core/Semantics/state_model.sml
+	../Engine/Engine_Core/Semantics/stack.sml
+	../Engine/Engine_Core/Semantics/store.sml
+	../Engine/Engine_Core/Semantics/semantics.sml
+	../Engine/Engine_Core/Semantics/generate.sml
+	../Engine/Engine_Core/Semantics/predefined.sml
+	../Engine/Engine_Core/Semantics/wildcard.sml
+
+	../Engine/Engine_Core/Interface/interface.sml
+	../Engine/Engine_Core/Metrics/metrics.sml
+		
+	../Engine/Engine_Core/Enhanced_PrettyPrinter/prettyprint_datatypes.sml
+	../Engine/Engine_Core/Enhanced_PrettyPrinter/prettyprint_engine.sml
+
+
+	

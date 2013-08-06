@@ -1,0 +1,21 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    $(SML_LIB)/basis/sml-nj.mlb
+    
+    $(TL)/engineCommandLineSupportHandleException.mlb
+    
+    $(TL)/engineCoreAnalysis.mlb
+    
+    $(TL)/engineCoreSyntaxConcrete.mlb
+    $(TL)/engineCoreSyntaxAbstract.mlb
+    
+    $(TL)/engineParserGeneratorAux.mlb
+    $(TL)/engineParserGeneratorLexer.mlb
+    $(TL)/engineParserGeneratorParser.mlb
+    
+    $(TL)/Engine/CommandLine_Support/derived_forms.sml
+    $(TL)/Engine/CommandLine_Support/modulePreprocessor.sml
+    $(TL)/Engine/CommandLine_Support/Basic_Support.sml
+in
+    parser.sml
+end

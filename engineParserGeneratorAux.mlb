@@ -1,0 +1,9 @@
+local
+    $(SML_LIB)/basis/basis.mlb
+    $(SML_LIB)/smlnj-lib/Util/smlnj-lib.mlb
+in
+    $(TL)/Engine/ParserGenerator/auxiliary/universal.sml 
+    $(TL)/Engine/ParserGenerator/auxiliary/bit-vector-set.sml
+    $(TL)/Engine/ParserGenerator/parser/ReadGrammar/gram_ast.sig
+    $(TL)/Engine/ParserGenerator/auxiliary/Grammar_AbstractSyntax.sml 
+end

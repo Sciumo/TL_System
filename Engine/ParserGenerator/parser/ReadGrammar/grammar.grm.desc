@@ -1,0 +1,625 @@
+
+state 0:
+
+	grammar : . ID precassoc_rules production_list 
+
+	ID	shift 1
+
+	grammar	goto 52
+
+	.	error
+
+
+state 1:
+
+	grammar : ID . precassoc_rules production_list 
+
+	NON_ASSOC	shift 6
+	LEFT_ASSOC	shift 5
+	RIGHT_ASSOC	shift 4
+
+	precassoc_rules	goto 3
+	precassoc_rule	goto 2
+
+	.	reduce by rule 16
+
+
+state 2:
+
+	precassoc_rules : precassoc_rule . precassoc_rules 
+
+	NON_ASSOC	shift 6
+	LEFT_ASSOC	shift 5
+	RIGHT_ASSOC	shift 4
+
+	precassoc_rules	goto 7
+	precassoc_rule	goto 2
+
+	.	reduce by rule 16
+
+
+state 3:
+
+	grammar : ID precassoc_rules . production_list 
+
+	ID	shift 11
+	TID	shift 10
+
+	production_list	goto 9
+	production	goto 8
+
+	.	error
+
+
+state 4:
+
+	precassoc_rule : RIGHT_ASSOC . symbol_list END_PRODUCTION 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+
+	symbol_list	goto 13
+	symbol	goto 12
+
+	.	error
+
+
+state 5:
+
+	precassoc_rule : LEFT_ASSOC . symbol_list END_PRODUCTION 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+
+	symbol_list	goto 17
+	symbol	goto 12
+
+	.	error
+
+
+state 6:
+
+	precassoc_rule : NON_ASSOC . symbol_list END_PRODUCTION 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+
+	symbol_list	goto 18
+	symbol	goto 12
+
+	.	error
+
+
+state 7:
+
+	precassoc_rules : precassoc_rule precassoc_rules .  (reduce by rule 17)
+
+
+
+	.	reduce by rule 17
+
+
+state 8:
+
+	production_list : production .  (reduce by rule 1)
+	production_list : production . production_list 
+
+	ID	shift 11
+	TID	shift 10
+
+	production_list	goto 19
+	production	goto 8
+
+	.	reduce by rule 1
+
+
+state 9:
+
+	grammar : ID precassoc_rules production_list .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 10:
+
+	production : TID . EQUALS choice_regexp precsymb_opt END_PRODUCTION 
+
+	EQUALS	shift 20
+
+
+	.	error
+
+
+state 11:
+
+	production : ID . EQUALS choice_regexp precsymb_opt END_PRODUCTION 
+
+	EQUALS	shift 21
+
+
+	.	error
+
+
+state 12:
+
+	symbol_list : symbol .  (reduce by rule 23)
+	symbol_list : symbol . symbol_list 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+
+	symbol_list	goto 22
+	symbol	goto 12
+
+	.	reduce by rule 23
+
+
+state 13:
+
+	precassoc_rule : RIGHT_ASSOC symbol_list . END_PRODUCTION 
+
+	END_PRODUCTION	shift 23
+
+
+	.	error
+
+
+state 14:
+
+	symbol : LID .  (reduce by rule 27)
+
+
+
+	.	reduce by rule 27
+
+
+state 15:
+
+	symbol : TID .  (reduce by rule 26)
+
+
+
+	.	reduce by rule 26
+
+
+state 16:
+
+	symbol : ID .  (reduce by rule 25)
+
+
+
+	.	reduce by rule 25
+
+
+state 17:
+
+	precassoc_rule : LEFT_ASSOC symbol_list . END_PRODUCTION 
+
+	END_PRODUCTION	shift 24
+
+
+	.	error
+
+
+state 18:
+
+	precassoc_rule : NON_ASSOC symbol_list . END_PRODUCTION 
+
+	END_PRODUCTION	shift 25
+
+
+	.	error
+
+
+state 19:
+
+	production_list : production production_list .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 20:
+
+	production : TID EQUALS . choice_regexp precsymb_opt END_PRODUCTION 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+	LPAREN	shift 32
+	LBRACK	shift 31
+	LBRACE	shift 30
+
+	choice_regexp	goto 29
+	sequence_regexp	goto 28
+	atomic_regexp	goto 27
+	symbol	goto 26
+
+	.	reduce by rule 7
+
+
+state 21:
+
+	production : ID EQUALS . choice_regexp precsymb_opt END_PRODUCTION 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+	LPAREN	shift 32
+	LBRACK	shift 31
+	LBRACE	shift 30
+
+	choice_regexp	goto 33
+	sequence_regexp	goto 28
+	atomic_regexp	goto 27
+	symbol	goto 26
+
+	.	reduce by rule 7
+
+
+state 22:
+
+	symbol_list : symbol symbol_list .  (reduce by rule 24)
+
+
+
+	.	reduce by rule 24
+
+
+state 23:
+
+	precassoc_rule : RIGHT_ASSOC symbol_list END_PRODUCTION .  (reduce by rule 20)
+
+
+
+	.	reduce by rule 20
+
+
+state 24:
+
+	precassoc_rule : LEFT_ASSOC symbol_list END_PRODUCTION .  (reduce by rule 19)
+
+
+
+	.	reduce by rule 19
+
+
+state 25:
+
+	precassoc_rule : NON_ASSOC symbol_list END_PRODUCTION .  (reduce by rule 18)
+
+
+
+	.	reduce by rule 18
+
+
+state 26:
+
+	atomic_regexp : symbol .  (reduce by rule 9)
+
+
+
+	.	reduce by rule 9
+
+
+state 27:
+
+	sequence_regexp : atomic_regexp . sequence_regexp 
+	atomic_regexp : atomic_regexp . PLUS 
+	atomic_regexp : atomic_regexp . QUESTION 
+	atomic_regexp : atomic_regexp . ASTERISK 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+	LPAREN	shift 32
+	LBRACK	shift 31
+	LBRACE	shift 30
+	ASTERISK	shift 37
+	PLUS	shift 36
+	QUESTION	shift 35
+
+	sequence_regexp	goto 34
+	atomic_regexp	goto 27
+	symbol	goto 26
+
+	.	reduce by rule 7
+
+
+state 28:
+
+	choice_regexp : sequence_regexp .  (reduce by rule 5)
+
+
+
+	.	reduce by rule 5
+
+
+state 29:
+
+	production : TID EQUALS choice_regexp . precsymb_opt END_PRODUCTION 
+	choice_regexp : choice_regexp . VBAR choice_regexp 
+
+	PREC	shift 40
+	VBAR	shift 39
+
+	precsymb_opt	goto 38
+
+	.	reduce by rule 21
+
+
+state 30:
+
+	atomic_regexp : LBRACE . choice_regexp RBRACE 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+	LPAREN	shift 32
+	LBRACK	shift 31
+	LBRACE	shift 30
+
+	choice_regexp	goto 41
+	sequence_regexp	goto 28
+	atomic_regexp	goto 27
+	symbol	goto 26
+
+	.	reduce by rule 7
+
+
+state 31:
+
+	atomic_regexp : LBRACK . choice_regexp RBRACK 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+	LPAREN	shift 32
+	LBRACK	shift 31
+	LBRACE	shift 30
+
+	choice_regexp	goto 42
+	sequence_regexp	goto 28
+	atomic_regexp	goto 27
+	symbol	goto 26
+
+	.	reduce by rule 7
+
+
+state 32:
+
+	atomic_regexp : LPAREN . choice_regexp RPAREN 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+	LPAREN	shift 32
+	LBRACK	shift 31
+	LBRACE	shift 30
+
+	choice_regexp	goto 43
+	sequence_regexp	goto 28
+	atomic_regexp	goto 27
+	symbol	goto 26
+
+	.	reduce by rule 7
+
+
+state 33:
+
+	production : ID EQUALS choice_regexp . precsymb_opt END_PRODUCTION 
+	choice_regexp : choice_regexp . VBAR choice_regexp 
+
+	PREC	shift 40
+	VBAR	shift 39
+
+	precsymb_opt	goto 44
+
+	.	reduce by rule 21
+
+
+state 34:
+
+	sequence_regexp : atomic_regexp sequence_regexp .  (reduce by rule 8)
+
+
+
+	.	reduce by rule 8
+
+
+state 35:
+
+	atomic_regexp : atomic_regexp QUESTION .  (reduce by rule 11)
+
+
+
+	.	reduce by rule 11
+
+
+state 36:
+
+	atomic_regexp : atomic_regexp PLUS .  (reduce by rule 10)
+
+
+
+	.	reduce by rule 10
+
+
+state 37:
+
+	atomic_regexp : atomic_regexp ASTERISK .  (reduce by rule 12)
+
+
+
+	.	reduce by rule 12
+
+
+state 38:
+
+	production : TID EQUALS choice_regexp precsymb_opt . END_PRODUCTION 
+
+	END_PRODUCTION	shift 45
+
+
+	.	error
+
+
+state 39:
+
+	choice_regexp : choice_regexp VBAR . choice_regexp 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+	LPAREN	shift 32
+	LBRACK	shift 31
+	LBRACE	shift 30
+
+	choice_regexp	goto 46
+	sequence_regexp	goto 28
+	atomic_regexp	goto 27
+	symbol	goto 26
+
+	.	reduce by rule 7
+
+
+state 40:
+
+	precsymb_opt : PREC . symbol 
+
+	ID	shift 16
+	TID	shift 15
+	LID	shift 14
+
+	symbol	goto 47
+
+	.	error
+
+
+state 41:
+
+	choice_regexp : choice_regexp . VBAR choice_regexp 
+	atomic_regexp : LBRACE choice_regexp . RBRACE 
+
+	RBRACE	shift 48
+	VBAR	shift 39
+
+
+	.	error
+
+
+state 42:
+
+	choice_regexp : choice_regexp . VBAR choice_regexp 
+	atomic_regexp : LBRACK choice_regexp . RBRACK 
+
+	RBRACK	shift 49
+	VBAR	shift 39
+
+
+	.	error
+
+
+state 43:
+
+	choice_regexp : choice_regexp . VBAR choice_regexp 
+	atomic_regexp : LPAREN choice_regexp . RPAREN 
+
+	RPAREN	shift 50
+	VBAR	shift 39
+
+
+	.	error
+
+
+state 44:
+
+	production : ID EQUALS choice_regexp precsymb_opt . END_PRODUCTION 
+
+	END_PRODUCTION	shift 51
+
+
+	.	error
+
+
+state 45:
+
+	production : TID EQUALS choice_regexp precsymb_opt END_PRODUCTION .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 46:
+
+	choice_regexp : choice_regexp . VBAR choice_regexp 
+	choice_regexp : choice_regexp VBAR choice_regexp .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 47:
+
+	precsymb_opt : PREC symbol .  (reduce by rule 22)
+
+
+
+	.	reduce by rule 22
+
+
+state 48:
+
+	atomic_regexp : LBRACE choice_regexp RBRACE .  (reduce by rule 15)
+
+
+
+	.	reduce by rule 15
+
+
+state 49:
+
+	atomic_regexp : LBRACK choice_regexp RBRACK .  (reduce by rule 14)
+
+
+
+	.	reduce by rule 14
+
+
+state 50:
+
+	atomic_regexp : LPAREN choice_regexp RPAREN .  (reduce by rule 13)
+
+
+
+	.	reduce by rule 13
+
+
+state 51:
+
+	production : ID EQUALS choice_regexp precsymb_opt END_PRODUCTION .  (reduce by rule 3)
+
+
+
+	.	reduce by rule 3
+
+
+state 52:
+
+
+	EOF	accept
+
+
+	.	error
+
+45 of 142 action table entries left after compaction
+47 goto table entries

@@ -1,0 +1,11 @@
+
+
+  In Windows, explorer is the process that launches processes like stablize.bat.
+Explorer will use its environment variables when doing so. If ml-lex is not
+found when running stabilize then most likely, the Path variable needs to
+be updated to include: C:\sml\bin. However, in order for explorer to 
+be updated you must log-off and log back on.
+
+
+
+  

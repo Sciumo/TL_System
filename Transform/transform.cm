@@ -1,0 +1,20 @@
+
+Group is
+
+	$/basis.cm
+	support.cm
+	
+	CommandLineArgs.sml
+	../Engine/CommandLine_Support/Transform_Support.sml
+	../Engine/CommandLine_Support/TargetParser.sml	
+	
+	target_tokens.spec : shell (target:target_tokens.spec.sml options:(shared)
+						ml-lex %s)
+	../Engine/ParserGenerator/lexer/target_token_ops.sml
+	../Engine/ParserGenerator/parser/build_parsers.sml
+
+	
+	SML_Modules/UserLibrary.cm  
+	
+
+	
