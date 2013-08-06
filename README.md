@@ -1,3 +1,15 @@
+#TL System Fork
+This is a fork of Dr. Victor Winter's TL System (http://faculty.ist.unomaha.edu/winter/ShiftLab/TL_web/TL_index.html)
+
+The interim goal of this fork to align the TL System build structure with that of LLVM. 
+
+The end state goal is complete LLVM integration including:
+
+1. LLVM pass, analysis, and rewrite
+2. Build chain integration including ARM targets.
+
+
+
 TL_System
 =========
 
